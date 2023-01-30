@@ -127,3 +127,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Nextflow things
+.nextflow
+.nextflow.log*
+work
+runner/dbManager
+runner/inputBucket
+runner/outputBucket
+runner/queue
+
+#Don't track output files either
+outputBucket/files
