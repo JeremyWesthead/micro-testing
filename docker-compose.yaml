@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  queue:
+    image: queue
+    build: 
+      context: ./queue
+      dockerfile: Dockerfile
+    container_name: queue
+    ports:
+     - "8000:8000"
+
+  input-manager:
+    image: input-manager
+    build: 
+      context: ./inputBucket
+      dockerfile: Dockerfile
+    container_name: input-manager
+    ports:
+     - "8001:8001"
+    volumes:
+     - "./inputBucket/files:/files"
+
+  output-manager:
+    image: output-manager
+    build: 
+      context: ./outputBucket
+      dockerfile: Dockerfile
+    container_name: output-manager
+    ports:
+     - "8002:8002"
+    volumes:
+     - "./outputBucket/files:/files"
+
+  db:
+    image: db-manager
+    build: 
+      context: ./dbManager
+      dockerfile: Dockerfile
+    container_name: db-manager
+    ports:
+     - "8003:8003"
+
+  runner:
+    image: runner
+    build: 
+      context: ./runner
+      dockerfile: Dockerfile
+    container_name: runner
+    network_mode: "host"
