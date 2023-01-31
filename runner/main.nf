@@ -1,7 +1,6 @@
 nextflow.enable.dsl=2
 
 process getFiles {
-    debug true
     input:
         val batch
     output:
@@ -20,7 +19,6 @@ process getFiles {
 }
 
 process doSomething {
-    debug true
     input:
         val batch
     script:
