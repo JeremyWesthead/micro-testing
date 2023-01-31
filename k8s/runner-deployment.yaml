@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: runner
+  name: runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: runner
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/micro-testing-default: "true"
+        io.kompose.service: runner
+    spec:
+      containers:
+        - image: j3remy/testing:runner
+          name: runner
+          resources: {}
+          imagePullPolicy: Always
+      restartPolicy: Always
+status: {}

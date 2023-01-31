@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: input-manager
+  name: input-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: input-manager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/micro-testing-default: "true"
+        io.kompose.service: input-manager
+    spec:
+      containers:
+        - image: j3remy/testing:input-manager
+          name: input-manager
+          ports:
+            - containerPort: 8001
+          resources: {}
+          volumeMounts:
+            - mountPath: /files
+              name: input-manager-claim0
+      restartPolicy: Always
+      volumes:
+        - name: input-manager-claim0
+          persistentVolumeClaim:
+            claimName: input-manager-claim0
+status: {}

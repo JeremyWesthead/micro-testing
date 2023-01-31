@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: output-manager
+  name: output-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: output-manager
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ../../kompose convert -f ../docker-compose.yaml
+        kompose.version: 1.28.0 (c4137012e)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/micro-testing-default: "true"
+        io.kompose.service: output-manager
+    spec:
+      containers:
+        - image: j3remy/testing:output-manager
+          name: output-manager
+          ports:
+            - containerPort: 8002
+          resources: {}
+          volumeMounts:
+            - mountPath: /files
+              name: output-manager-claim0
+      restartPolicy: Always
+      volumes:
+        - name: output-manager-claim0
+          persistentVolumeClaim:
+            claimName: output-manager-claim0
+status: {}
